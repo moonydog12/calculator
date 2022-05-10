@@ -1,5 +1,5 @@
-const display = document.getElementById('display');
-const wait = document.querySelector('#wait');
+const displayZone = document.querySelector('#display-zone');
+const storeZone = document.querySelector('#store-zone');
 const digits = document.querySelectorAll('.digits button');
 
 const addBtn = document.querySelector('#addBtn');
@@ -9,33 +9,37 @@ const divideBtn = document.querySelector('#divideBtn');
 const equalBtn = document.querySelector('#equalBtn');
 const clearBtn = document.querySelector('#clearBtn');
 
+let displayNumber = '';
+let storedNumber = '';
+let operator = '';
 // Listeners
 clearBtn.addEventListener('click', () => {
-  display.textContent = '';
+  displayZone.textContent = '';
+  storeZone.textContent = '';
 });
 
 equalBtn.addEventListener('click', () => {
-  let curNum = +display.textContent;
-  let prevNum = +output[0];
-  let operator = output[1];
-  output = [];
-  let solution = operate(operator, prevNum, curNum);
-  display.textContent = solution;
+  //將storedNumber、displayNumber轉成number形別並傳入operate fn
+  let solution = operate(operator, +storedNumber, +displayNumber);
+  displayNumber = solution;
+  storedNumber = '';
+  storeZone.textContent = storedNumber;
+  displayZone.textContent = displayNumber;
 });
 
 digits.forEach(function (digit) {
   digit.addEventListener('click', populateUI);
 });
-let output = [];
+
 const operateButtons = [addBtn, subtractBtn, multiplyBtn, divideBtn];
 operateButtons.forEach(function (button) {
   button.addEventListener('click', () => {
-    let prevNum = display.textContent;
-    let operator = button.textContent;
-    display.textContent = '';
-    output.push(prevNum);
-    output.push(operator);
-    console.log(output);
+    storedNumber = displayNumber;
+    displayNumber = '';
+    operator = button.textContent;
+    storeZone.textContent = `${storedNumber} ${operator}`;
+    displayZone.textContent = displayNumber;
+    return storedNumber, operator;
   });
 });
 
@@ -74,5 +78,6 @@ function operate(operator, num1, num2) {
 }
 
 function populateUI() {
-  display.textContent += this.textContent;
+  displayZone.textContent += this.textContent;
+  displayNumber = displayZone.textContent;
 }
