@@ -5,3 +5,12 @@ body {
   height: 100vh;
   overflow-y: hidden;
 }
+
+#store-zone,
+#display-zone {
+  /* content: ''; */
+  display: flex;
+  align-items: center;
+  height: 40px;
+  border: 1px solid black;
+}
