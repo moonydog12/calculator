@@ -9,9 +9,11 @@ const divideBtn = document.querySelector('#divideBtn');
 const equalBtn = document.querySelector('#equalBtn');
 const clearBtn = document.querySelector('#clearBtn');
 
-let displayNumber;
-let storedNumber;
-let operator;
+let data = {
+  displayNumber: '',
+  storedNumber: '',
+  operator: '',
+};
 // Listeners
 clearBtn.addEventListener('click', clear);
 
@@ -20,7 +22,6 @@ equalBtn.addEventListener('click', executeEqual);
 digits.forEach(function (digit) {
   digit.addEventListener('click', (e) => {
     displayZone.textContent += e.target.textContent;
-    displayNumber = displayZone.textContent;
   });
 });
 
@@ -64,25 +65,29 @@ function operate(operator, num1, num2) {
 }
 
 function populateUI() {
-  displayZone.textContent = displayNumber;
-  storeZone.textContent = storedNumber;
+  displayZone.textContent = data.displayNumber;
+  storeZone.textContent = data.storedNumber;
 }
 
 function executeOperator(e) {
-  operator = e.target.textContent;
-  //檢查store區域是否有數字 沒有的話SET storeNumber to displayNumber THEN RESET displayNumber
-  if (!storeZone.textContent) {
-    console.log('store區域沒有資料');
-    storedNumber = displayNumber;
-    displayNumber = '';
+  data.operator = e.target.textContent;
+  data.displayNumber = +displayZone.textContent;
+  console.log(data);
+  if (!data.storedNumber && data.displayNumber) {
+    data.storedNumber = data.displayNumber;
+    data.displayNumber = '';
     populateUI();
     return;
-  } else if (storeZone.textContent && displayZone.textContent) {
-    displayNumber = +displayZone.textContent;
-    storedNumber = +storeZone.textContent;
-    let solution = operate(operator, storedNumber, displayNumber);
-    storedNumber = '';
-    displayNumber = solution;
+  }
+
+  if (data.storedNumber && data.displayNumber) {
+    let solution = operate(
+      data.operator,
+      +data.storedNumber,
+      +data.displayNumber
+    );
+    data.displayNumber = solution;
+    data.storedNumber = '';
     populateUI();
     return;
   }
@@ -90,11 +95,17 @@ function executeOperator(e) {
 
 function executeEqual() {
   //將storedNumber、displayNumber轉成number形別並傳入operate fn
+  data.displayNumber = +displayZone.textContent;
+  console.log(data);
+  let solution = operate(data.operator, data.storedNumber, data.displayNumber);
+  data.displayNumber = solution;
+  data.storedNumber = '';
+  populateUI();
 }
 
 function clear() {
-  displayNumber = '';
-  storedNumber = '';
-  operator = '';
+  data.displayNumber = '';
+  data.operator = '';
+  data.storedNumber = '';
   populateUI();
 }
