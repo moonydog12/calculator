@@ -8,9 +8,12 @@ const divideBtn = document.querySelector('#divideBtn');
 const equalBtn = document.querySelector('#equalBtn');
 const clearBtn = document.querySelector('#clearBtn');
 
-let currentNum = '';
-let prevNum = '';
-let operator = '';
+const data = {
+  currentNum: '',
+  prevNum: '',
+  operator: '',
+};
+
 // Functions
 function add(a, b) {
   return a + b;
@@ -28,8 +31,10 @@ function divide(a, b) {
   return a / b;
 }
 // 計算函式
-function compute(ope, a, b) {
-  switch (ope) {
+function compute(operator, previousNumber, currentNumber) {
+  let a = Number(previousNumber);
+  let b = Number(currentNumber);
+  switch (operator) {
     case '+':
       return add(a, b);
       break;
@@ -46,11 +51,12 @@ function compute(ope, a, b) {
 }
 
 function clearData() {
-  currentNum = '';
-  prevNum = '';
-  operator = '';
-  display.textContent = currentNum;
+  data.currentNum = '';
+  data.operator = '';
+  data.prevNum = '';
+  display.textContent = '';
 }
+
 // Listeners
 
 digits.forEach(function (digit) {
@@ -60,18 +66,32 @@ digits.forEach(function (digit) {
 });
 
 const operateButtons = [addBtn, subtractBtn, multiplyBtn, divideBtn];
-operateButtons.forEach(function (button) {
+operateButtons.forEach((button) => {
   button.addEventListener('click', (e) => {
-    prevNum = +display.textContent;
-    operator = e.target.textContent;
-    display.textContent = '';
+    data.operator = button.textContent;
+    data.currentNum = display.textContent;
+    console.log(data);
+    if (data.prevNum === '' || data.prevNum === undefined) {
+      data.prevNum = data.currentNum;
+      data.currentNum = '';
+      display.textContent = '';
+      return;
+    }
+    let solution = compute(data.operator, data.prevNum, data.currentNum);
+    console.log(solution);
+    data.currentNum = solution;
+    data.prevNum = '';
+    display.textContent = data.currentNum;
+    console.log(data);
   });
 });
 
 equalBtn.addEventListener('click', () => {
-  currentNum = +display.textContent;
-  let output = compute(operator, prevNum, currentNum);
-  display.textContent = output;
+  data.currentNum = display.textContent;
+  let solution = compute(data.operator, data.currentNum, data.prevNum);
+  data.currentNum = solution;
+  data.prevNum = '';
+  display.textContent = data.currentNum;
 });
 
 clearBtn.addEventListener('click', clearData);
