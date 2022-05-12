@@ -1,5 +1,4 @@
-const displayZone = document.querySelector('#display-zone');
-const storeZone = document.querySelector('#store-zone');
+const display = document.querySelector('#display');
 const digits = document.querySelectorAll('.digits button');
 
 const addBtn = document.querySelector('#addBtn');
@@ -9,103 +8,54 @@ const divideBtn = document.querySelector('#divideBtn');
 const equalBtn = document.querySelector('#equalBtn');
 const clearBtn = document.querySelector('#clearBtn');
 
-let data = {
-  displayNumber: '',
-  storedNumber: '',
-  operator: '',
-};
-// Listeners
-clearBtn.addEventListener('click', clear);
+let currentNum = '';
+let prevNum = '';
+let operator = '';
+// Functions
+function add(a, b) {
+  return a + b;
+}
 
-equalBtn.addEventListener('click', executeEqual);
+function subtract(a, b) {
+  return a - b;
+}
+
+function multiply(a, b) {
+  return a * b;
+}
+
+function divide(a, b) {
+  return a / b;
+}
+// 計算函式
+function compute(ope, a, b) {
+  switch (ope) {
+    case '+':
+      return add(a, b);
+      break;
+    case '-':
+      return subtract(a, b);
+      break;
+    case '*':
+      return multiply(a, b);
+      break;
+    case '/':
+      return divide(a, b);
+      break;
+  }
+}
+
+// Listeners
 
 digits.forEach(function (digit) {
   digit.addEventListener('click', (e) => {
-    displayZone.textContent += e.target.textContent;
+    display.textContent += e.target.textContent;
   });
 });
 
 const operateButtons = [addBtn, subtractBtn, multiplyBtn, divideBtn];
 operateButtons.forEach(function (button) {
-  button.addEventListener('click', executeOperator);
+  button.addEventListener('click', (e) => {});
 });
 
-// Functions
-function add(num1, num2) {
-  return num1 + num2;
-}
-
-function subtract(num1, num2) {
-  return num1 - num2;
-}
-
-function multiply(num1, num2) {
-  return num1 * num2;
-}
-
-function divide(num1, num2) {
-  return num1 / num2;
-}
-
-function operate(operator, num1, num2) {
-  switch (operator) {
-    case '+':
-      return add(num1, num2);
-      break;
-    case '-':
-      return subtract(num1, num2);
-      break;
-    case '*':
-      return multiply(num1, num2);
-      break;
-    case '/':
-      return divide(num1, num2);
-      break;
-  }
-}
-
-function populateUI() {
-  displayZone.textContent = data.displayNumber;
-  storeZone.textContent = data.storedNumber;
-}
-
-function executeOperator(e) {
-  data.operator = e.target.textContent;
-  data.displayNumber = +displayZone.textContent;
-  console.log(data);
-  if (!data.storedNumber && data.displayNumber) {
-    data.storedNumber = data.displayNumber;
-    data.displayNumber = '';
-    populateUI();
-    return;
-  }
-
-  if (data.storedNumber && data.displayNumber) {
-    let solution = operate(
-      data.operator,
-      +data.storedNumber,
-      +data.displayNumber
-    );
-    data.displayNumber = solution;
-    data.storedNumber = '';
-    populateUI();
-    return;
-  }
-}
-
-function executeEqual() {
-  //將storedNumber、displayNumber轉成number形別並傳入operate fn
-  data.displayNumber = +displayZone.textContent;
-  console.log(data);
-  let solution = operate(data.operator, data.storedNumber, data.displayNumber);
-  data.displayNumber = solution;
-  data.storedNumber = '';
-  populateUI();
-}
-
-function clear() {
-  data.displayNumber = '';
-  data.operator = '';
-  data.storedNumber = '';
-  populateUI();
-}
+equalBtn.addEventListener('click', () => {});
