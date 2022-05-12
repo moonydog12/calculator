@@ -45,6 +45,12 @@ function compute(ope, a, b) {
   }
 }
 
+function clearData() {
+  currentNum = '';
+  prevNum = '';
+  operator = '';
+  display.textContent = currentNum;
+}
 // Listeners
 
 digits.forEach(function (digit) {
@@ -55,7 +61,17 @@ digits.forEach(function (digit) {
 
 const operateButtons = [addBtn, subtractBtn, multiplyBtn, divideBtn];
 operateButtons.forEach(function (button) {
-  button.addEventListener('click', (e) => {});
+  button.addEventListener('click', (e) => {
+    prevNum = +display.textContent;
+    operator = e.target.textContent;
+    display.textContent = '';
+  });
 });
 
-equalBtn.addEventListener('click', () => {});
+equalBtn.addEventListener('click', () => {
+  currentNum = +display.textContent;
+  let output = compute(operator, prevNum, currentNum);
+  display.textContent = output;
+});
+
+clearBtn.addEventListener('click', clearData);
