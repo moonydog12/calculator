@@ -5,32 +5,45 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>calculator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="style.css" />
-    <script defer src="script.js"></script>
+    <!-- <script defer src="script.js"></script> -->
+    <script defer src="script2.js"></script>
   </head>
   <body>
     <div class="container">
       <div class="calculator" id="calculator">
+        <div class="top">
+          <div class="logo">XoloDog</div>
+        </div>
         <div id="display"></div>
-        <div class="digits">
-          <button class="digit-btn">0</button>
-          <button class="digit-btn">1</button>
-          <button class="digit-btn">2</button>
-          <button class="digit-btn">3</button>
-          <button class="digit-btn">4</button>
-          <button class="digit-btn">5</button>
-          <button class="digit-btn">6</button>
+        <button class="function-btn" id="clearBtn">clear</button>
+        <button class="function-btn" id="deleteBtn">delete</button>
+        <div class="buttons">
           <button class="digit-btn">7</button>
           <button class="digit-btn">8</button>
           <button class="digit-btn">9</button>
-        </div>
-        <div class="operators">
-          <button class="operator-btn" id="addBtn">+</button>
-          <button class="operator-btn" id="subtractBtn">-</button>
-          <button class="operator-btn" id="multiplyBtn">*</button>
-          <button class="operator-btn" id="divideBtn">/</button>
-          <button class="operator-btn" id="equalBtn">=</button>
-          <button class="oprator-btn" id="clearBtn">clear</button>
+          <button class="operator-btn dark-btn" id="divideBtn">÷</button>
+
+          <button class="digit-btn">4</button>
+          <button class="digit-btn">5</button>
+          <button class="digit-btn">6</button>
+          <button class="operator-btn dark-btn" id="multiplyBtn">×</button>
+
+          <button class="digit-btn">1</button>
+          <button class="digit-btn">2</button>
+          <button class="digit-btn">3</button>
+          <button class="operator-btn dark-btn" id="subtractBtn">-</button>
+
+          <button class="digit-btn">.</button>
+          <button class="digit-btn">0</button>
+          <button class="dark-btn" id="equalBtn">=</button>
+          <button class="operator-btn dark-btn" id="addBtn">+</button>
         </div>
       </div>
     </div>
