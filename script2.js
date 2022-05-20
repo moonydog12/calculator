@@ -16,26 +16,51 @@ digits.forEach((digit) => {
   });
 });
 
+function check() {
+  if (operator) {
+    console.log(operator, button.textContent);
+  }
+}
+
 operators.forEach((button) =>
   button.addEventListener('click', () => {
+    let temp;
+    //if operator already exists, put into another variable
+    if (operator) {
+      temp = operator;
+      operator = null;
+    }
     currOperand = displayScreen.textContent;
     operator = button.textContent;
-    displayScreen.textContent = '';
+    console.log(temp, operator);
+    resetOperand();
   })
 );
 
 equalBtn.addEventListener('click', () => {
-  prevOperand = currOperand;
-  currOperand = displayScreen.textContent;
-  let solution = +operate(operator, prevOperand, currOperand);
-  console.log(prevOperand, operator, currOperand, '=', solution);
+  if (!prevOperand) {
+    prevOperand = currOperand;
+    currOperand = displayScreen.textContent;
+  }
+  let solution = operate(prevOperand, operator, currOperand);
+  console.log(
+    `curr:${currOperand} prev:${prevOperand} operator:${operator} sol:${solution}`
+  );
   populateNumber(solution);
+  resetData();
 });
 
 clearBtn.addEventListener('click', clear);
 
 /* FUNCTIONS */
-function resetOperand() {}
+function resetData() {
+  prevOperand = '';
+  operator = '';
+}
+
+function resetOperand() {
+  displayScreen.textContent = '';
+}
 
 function populateNumber(number) {
   if (typeof number === 'string') {
@@ -49,10 +74,10 @@ function clear() {
   currOperand = '';
   prevOperand = '';
   operator = '';
-  displayScreen.textContent = '';
+  resetOperand();
 }
 
-function operate(operator, a, b) {
+function operate(a, operator, b) {
   // convert possible string value to number
   a = +a;
   b = +b;

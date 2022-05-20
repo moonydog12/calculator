@@ -1,11 +1,11 @@
 /* Minimal reset */
-
 :root {
   --calculator: #302e2f;
   --screen: #d4e2e3;
   --digit: #68635d;
   --function: #ba8153;
   --operator: #444243;
+  --green: #a9b576;
 }
 
 html {
@@ -52,9 +52,10 @@ button {
 }
 
 /* Calculator */
+
 #calculator {
   background-color: var(--calculator);
-  border: 5px solid #2b2724;
+  border: 6px solid var(--green);
   border-radius: 5px;
   padding: 20px;
   width: 40rem;
@@ -81,15 +82,41 @@ button {
   gap: 15px;
 }
 
-.buttons button {
-  padding: 20px;
+#deleteBtn {
+  font-weight: bold;
+}
+
+.buttons > button,
+.function-btn {
+  padding: 18px;
   border: 2px solid #fff;
   border-radius: 10px;
-  font-size: 20px;
+  font-size: 25px;
+}
+
+.function {
+  grid-column: 1 / span 4;
+  display: flex;
+  gap: 10px;
+}
+
+.function-btn {
+  background-color: var(--function);
+  padding: 0px 10px;
+}
+
+.function-btn:hover {
+  background-color: rgba(186, 129, 83, 0.7);
 }
 
 .digit-btn {
   background-color: var(--digit);
+}
+
+.digit-btn:hover,
+.dark-btn:hover {
+  background-color: #a9b576;
+  color: #000;
 }
 
 .dark-btn {
