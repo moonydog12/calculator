@@ -1,97 +1,91 @@
-const display = document.querySelector('#display');
-const digits = document.querySelectorAll('.digits button');
+'use strict';
 
-const addBtn = document.querySelector('#addBtn');
-const subtractBtn = document.querySelector('#subtractBtn');
-const multiplyBtn = document.querySelector('#multiplyBtn');
-const divideBtn = document.querySelector('#divideBtn');
+let currOperand = '';
+let prevOperand = '';
+let operator = '';
+
+const displayScreen = document.querySelector('#display');
+const digits = document.querySelectorAll('.buttons .digit-btn');
+const operators = document.querySelectorAll('.buttons .operator-btn');
 const equalBtn = document.querySelector('#equalBtn');
 const clearBtn = document.querySelector('#clearBtn');
+const deleteBtn = document.querySelector('#deleteBtn');
+/* LISTENERS */
+digits.forEach((digit) => {
+  digit.addEventListener('click', () => {
+    populateNumber(digit.textContent);
+  });
+});
 
-const data = {
-  currentNum: '',
-  prevNum: '',
-  operator: '',
-};
+operators.forEach((button) =>
+  button.addEventListener('click', () => {
+    operator = button.textContent;
+  })
+);
 
-// Functions
-function add(a, b) {
-  return a + b;
-}
+equalBtn.addEventListener('click', () => {
+  if (!prevOperand) {
+    prevOperand = currOperand;
+    currOperand = displayScreen.textContent;
+  }
+  let solution = operate(prevOperand, operator, currOperand);
+  console.log(
+    `curr:${currOperand} prev:${prevOperand} operator:${operator} sol:${solution}`
+  );
+  populateNumber(solution);
+  resetData();
+});
 
-function subtract(a, b) {
-  return a - b;
-}
+clearBtn.addEventListener('click', clear);
 
-function multiply(a, b) {
-  return a * b;
-}
+deleteBtn.addEventListener('click', deleteNumber);
+/* FUNCTIONS */
 
-function divide(a, b) {
-  return a / b;
-}
-// 計算函式
-function compute(operator, previousNumber, currentNumber) {
-  let a = Number(previousNumber);
-  let b = Number(currentNumber);
-  switch (operator) {
-    case '+':
-      return add(a, b);
-      break;
-    case '-':
-      return subtract(a, b);
-      break;
-    case '*':
-      return multiply(a, b);
-      break;
-    case '/':
-      return divide(a, b);
-      break;
+function populateNumber(number) {
+  if (typeof number === 'string') {
+    displayScreen.textContent += number;
+  } else if (typeof number === 'number') {
+    displayScreen.textContent = number;
   }
 }
 
-function clearData() {
-  data.currentNum = '';
-  data.operator = '';
-  data.prevNum = '';
-  display.textContent = '';
+function clear() {
+  currOperand = '';
+  prevOperand = '';
+  operator = '';
+  resetOperand();
 }
 
-// Listeners
+function deleteNumber() {
+  displayScreen.textContent = displayScreen.textContent.toString().slice(0, -1);
+}
 
-digits.forEach(function (digit) {
-  digit.addEventListener('click', (e) => {
-    display.textContent += e.target.textContent;
-  });
-});
-
-const operateButtons = [addBtn, subtractBtn, multiplyBtn, divideBtn];
-operateButtons.forEach((button) => {
-  button.addEventListener('click', (e) => {
-    data.operator = button.textContent;
-    data.currentNum = display.textContent;
-    console.log(data);
-    if (data.prevNum === '' || data.prevNum === undefined) {
-      data.prevNum = data.currentNum;
-      data.currentNum = '';
-      display.textContent = '';
-      return;
-    }
-    let solution = compute(data.operator, data.prevNum, data.currentNum);
-    console.log(solution);
-    data.currentNum = solution;
-    data.prevNum = '';
-    display.textContent = data.currentNum;
-    console.log(data);
-  });
-});
-
-equalBtn.addEventListener('click', () => {
-  data.currentNum = display.textContent;
-  let solution = compute(data.operator, data.currentNum, data.prevNum);
-  data.currentNum = solution;
-  data.prevNum = '';
-  display.textContent = data.currentNum;
-});
-
-clearBtn.addEventListener('click', clearData);
+function operate(a, operator, b) {
+  // convert possible string value to number
+  a = +a;
+  b = +b;
+  function add(a, b) {
+    return a + b;
+  }
+  function subtract(a, b) {
+    return a - b;
+  }
+  function multiply(a, b) {
+    return a * b;
+  }
+  function divide(a, b) {
+    return a / b;
+  }
+  switch (operator) {
+    case '+':
+      return add(a, b);
+    case '-':
+      return subtract(a, b);
+    case '×':
+      return multiply(a, b);
+    case '÷':
+      return divide(a, b);
+    default:
+      return null;
+  }
+}

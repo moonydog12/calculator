@@ -64,7 +64,8 @@ button {
 #display {
   background-color: var(--screen);
   height: 8.5rem;
-  font-size: 30px;
+  padding: 0 10px;
+  font-size: 32px;
   font-weight: 500;
   font-family: 'Orbitron';
   display: flex;
