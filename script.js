@@ -1,5 +1,3 @@
-'use strict';
-
 let currOperand = '';
 let prevOperand = '';
 let operator = '';
@@ -17,11 +15,7 @@ digits.forEach((digit) => {
   });
 });
 
-operators.forEach((button) =>
-  button.addEventListener('click', () => {
-    operator = button.textContent;
-  })
-);
+operators.forEach((button) => button.addEventListener('click', () => {}));
 
 equalBtn.addEventListener('click', () => {
   if (!prevOperand) {
