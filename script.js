@@ -53,33 +53,3 @@ function clear() {
 function deleteNumber() {
   displayScreen.textContent = displayScreen.textContent.toString().slice(0, -1);
 }
-
-function operate(a, operator, b) {
-  // convert possible string value to number
-  a = +a;
-  b = +b;
-  function add(a, b) {
-    return a + b;
-  }
-  function subtract(a, b) {
-    return a - b;
-  }
-  function multiply(a, b) {
-    return a * b;
-  }
-  function divide(a, b) {
-    return a / b;
-  }
-  switch (operator) {
-    case '+':
-      return add(a, b);
-    case '-':
-      return subtract(a, b);
-    case '×':
-      return multiply(a, b);
-    case '÷':
-      return divide(a, b);
-    default:
-      return null;
-  }
-}
