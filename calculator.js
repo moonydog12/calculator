@@ -1,4 +1,4 @@
-/*元素選擇器*/
+/* 元素選擇器 */
 
 const displayScreen = document.querySelector('#display');
 const digits = document.querySelectorAll('.buttons .digit-btn');
@@ -9,7 +9,8 @@ const deleteBtn = document.querySelector('#deleteBtn');
 
 let clickedOperator = null;
 let storedNumber = null;
-/*行為監聽*/
+
+/* 行為監聽 */
 
 digits.forEach((digit) => {
   digit.addEventListener('click', () => {
@@ -18,49 +19,62 @@ digits.forEach((digit) => {
 });
 
 operators.forEach((operator) => {
-  operator.addEventListener('click', function (e) {
-    clickedOperator = operator.innerHTML;
-    storedNumber = displayScreen.innerHTML;
-    displayScreen.innerHTML = '';
-  });
+  operator.addEventListener('click', clickOperators);
 });
 
 clearBtn.addEventListener('click', clean);
 deleteBtn.addEventListener('click', deleteNumber);
 equalBtn.addEventListener('click', clickEqualBtn);
 
-/*點擊按鈕渲染數字到計算機螢幕*/
+/* Fns */
+/* 點擊按鈕添加數字到螢幕 */
 function appendNumber(number) {
-  let value = displayScreen.textContent;
+  let value = displayScreen.innerHTML;
   if (value === '0' || value === 0) {
-    value = '';
+    displayScreen.innerHTML = '';
   }
-  value = value + number;
-  displayScreen.textContent = value;
+  displayScreen.innerHTML += number;
 }
 
+/* 清除螢幕(AC鍵) */
 function clean() {
   displayScreen.innerHTML = '0';
 }
 
+/* 刪除單個螢幕數字 */
 function deleteNumber() {
-  let value = displayScreen.innerHTML;
-  value = value.toString().slice(0, -1);
-  displayScreen.innerHTML = value;
-  if (value.length === 0) {
+  displayScreen.innerHTML = displayScreen.innerHTML.toString().slice(0, -1);
+  if (displayScreen.innerHTML.length === 0) {
     displayScreen.innerHTML = '0';
   }
 }
 
+/* 按下運算符 */
+function clickOperators() {
+  clickedOperator = this.innerHTML;
+  storedNumber = displayScreen.innerHTML;
+  if (storedNumber !== null && clickedOperator !== null) {
+    displayScreen.innerHTML = '';
+  }
+}
+
+/* 按下=鍵 */
 function clickEqualBtn() {
   let currentNumber = displayScreen.innerHTML;
-  //檢查是否接收到使用者輸入數字
+  //檢查輸入數字
   if (storedNumber === null || storedNumber === undefined) {
     alert('沒有輸入數字!');
     return;
+  } else if (
+    currentNumber === null ||
+    currentNumber === undefined ||
+    currentNumber === ''
+  ) {
+    alert('螢幕上沒有數字');
+    return;
   }
-  //檢查是否接收到使用者輸入運算符
-  if (
+  //檢查輸入運算符
+  else if (
     clickedOperator === null ||
     clickedOperator === undefined ||
     clickedOperator === ''
@@ -68,14 +82,16 @@ function clickEqualBtn() {
     alert('沒有輸入運算符!');
     return;
   }
+
   let answer = operate(storedNumber, clickedOperator, currentNumber);
   storedNumber = null;
+  clickedOperator = null;
   displayScreen.innerHTML = answer;
 }
 
-/* 運算function */
+/* 運算fn */
 function operate(a, operator, b) {
-  // 把字串輸入轉成數字
+  // 字串轉成數字
   a = Number(a);
   b = Number(b);
   function add(a, b) {
