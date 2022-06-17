@@ -13,9 +13,7 @@ let storedNumber = null;
 /* 行為監聽 */
 
 digits.forEach((digit) => {
-  digit.addEventListener('click', () => {
-    appendNumber(digit.innerHTML);
-  });
+  digit.addEventListener('click', clickDigits);
 });
 
 operators.forEach((operator) => {
@@ -26,7 +24,8 @@ clearBtn.addEventListener('click', clean);
 deleteBtn.addEventListener('click', deleteNumber);
 equalBtn.addEventListener('click', clickEqualBtn);
 
-/* Fns */
+/* Funcs */
+
 /* 點擊按鈕添加數字到螢幕 */
 function appendNumber(number) {
   let value = displayScreen.innerHTML;
@@ -38,6 +37,8 @@ function appendNumber(number) {
 
 /* 清除螢幕(AC鍵) */
 function clean() {
+  clickedOperator = null;
+  storedNumber = null;
   displayScreen.innerHTML = '0';
 }
 
@@ -48,11 +49,26 @@ function deleteNumber() {
     displayScreen.innerHTML = '0';
   }
 }
-
+/* 按下數字鍵 */
+function clickDigits() {
+  // 檢查螢幕數字是否包含小數點
+  if (this.innerHTML === '.') {
+    let value = displayScreen.innerHTML;
+    for (let i = 0; i < value.length; i++) {
+      if (value[i] === '.') {
+        alert('.has been included');
+        return;
+      }
+    }
+  }
+  appendNumber(this.innerHTML);
+}
 /* 按下運算符 */
 function clickOperators() {
   clickedOperator = this.innerHTML;
-  storedNumber = displayScreen.innerHTML;
+  if (storedNumber === null || storedNumber === '') {
+    storedNumber = displayScreen.innerHTML;
+  }
   if (storedNumber !== null && clickedOperator !== null) {
     displayScreen.innerHTML = '';
   }
@@ -114,7 +130,16 @@ function operate(a, operator, b) {
     case '×':
       return multiply(a, b);
     case '÷':
-      return divide(a, b);
+      if (a === 0 || b === 0) {
+        alert(`Don't try to crash me!`);
+        return storedNumber;
+      } else {
+        let answer = divide(a, b);
+        if (answer.toString().length > 5) {
+          answer = answer.toFixed(2);
+        }
+        return answer;
+      }
     default:
       return null;
   }
