@@ -51,12 +51,14 @@ function deleteNumber() {
 }
 /* 按下數字鍵 */
 function clickDigits() {
+  if (displayScreen.innerHTML.length >= 11) {
+    return;
+  }
   // 檢查螢幕數字是否包含小數點
   if (this.innerHTML === '.') {
     let value = displayScreen.innerHTML;
     for (let i = 0; i < value.length; i++) {
       if (value[i] === '.') {
-        alert('.has been included');
         return;
       }
     }
@@ -108,20 +110,12 @@ function clickEqualBtn() {
 /* 運算fn */
 function operate(a, operator, b) {
   // 字串轉成數字
-  a = Number(a);
-  b = Number(b);
-  function add(a, b) {
-    return a + b;
-  }
-  function subtract(a, b) {
-    return a - b;
-  }
-  function multiply(a, b) {
-    return a * b;
-  }
-  function divide(a, b) {
-    return a / b;
-  }
+  a = +a;
+  b = +b;
+  const add = () => a + b;
+  const subtract = () => a - b;
+  const multiply = () => a * b;
+  const divide = () => a / b;
   switch (operator) {
     case '+':
       return add(a, b);
@@ -131,7 +125,6 @@ function operate(a, operator, b) {
       return multiply(a, b);
     case '÷':
       if (a === 0 || b === 0) {
-        alert(`Don't try to crash me!`);
         return storedNumber;
       } else {
         let answer = divide(a, b);
