@@ -1,5 +1,4 @@
 /* 元素選擇器 */
-
 const displayScreen = document.querySelector('#display');
 const digits = document.querySelectorAll('.buttons .digit-btn');
 const operators = document.querySelectorAll('.buttons .operator-btn');
@@ -7,11 +6,11 @@ const equalBtn = document.querySelector('#equalBtn');
 const clearBtn = document.querySelector('#clearBtn');
 const deleteBtn = document.querySelector('#deleteBtn');
 
+/* global variables */
 let clickedOperator = null;
 let storedNumber = null;
 
 /* 行為監聽 */
-
 digits.forEach((digit) => {
   digit.addEventListener('click', clickDigits);
 });
@@ -25,7 +24,6 @@ deleteBtn.addEventListener('click', deleteNumber);
 equalBtn.addEventListener('click', clickEqualBtn);
 
 /* Funcs */
-
 /* 點擊按鈕添加數字到螢幕 */
 function appendNumber(number) {
   let value = displayScreen.innerHTML;
@@ -107,15 +105,17 @@ function clickEqualBtn() {
   displayScreen.innerHTML = answer;
 }
 
-/* 運算fn */
+/* 運算fns */
+const add = () => a + b;
+const subtract = () => a - b;
+const multiply = () => a * b;
+const divide = () => a / b;
+
 function operate(a, operator, b) {
   // 字串轉成數字
   a = +a;
   b = +b;
-  const add = () => a + b;
-  const subtract = () => a - b;
-  const multiply = () => a * b;
-  const divide = () => a / b;
+
   switch (operator) {
     case '+':
       return add(a, b);
