@@ -2,4 +2,4 @@
 
 Calculator created with HTML, CSS and JS.
 
-[Live Demo](https://losidog.github.io/calculator/) :point_left:
+[Live Demo](https://moonydog12.github.io/calculator/) :point_left:
