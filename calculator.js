@@ -7,8 +7,8 @@ const clearBtn = document.querySelector('#clearBtn');
 const deleteBtn = document.querySelector('#deleteBtn');
 
 /* global variables */
-let clickedOperator = null;
-let storedNumber = null;
+let clickedOperator;
+let storedNumber;
 
 /* 行為監聽 */
 digits.forEach((digit) => {
@@ -106,15 +106,15 @@ function clickEqualBtn() {
 }
 
 /* 運算fns */
-const add = () => a + b;
-const subtract = () => a - b;
-const multiply = () => a * b;
-const divide = () => a / b;
+const add = (a, b) => a + b;
+const subtract = (a, b) => a - b;
+const multiply = (a, b) => a * b;
+const divide = (a, b) => a / b;
 
 function operate(a, operator, b) {
   // 字串轉成數字
-  a = +a;
-  b = +b;
+  a = parseInt(a);
+  b = parseInt(b);
 
   switch (operator) {
     case '+':
@@ -125,13 +125,14 @@ function operate(a, operator, b) {
       return multiply(a, b);
     case '÷':
       if (a === 0 || b === 0) {
+        alert('0不能成為除數或被除數');
         return storedNumber;
       } else {
-        let answer = divide(a, b);
-        if (answer.toString().length > 5) {
-          answer = answer.toFixed(2);
+        let value = divide(a, b);
+        if (value.toString().length > 5) return value.toFixed(2);
+        else {
+          return value;
         }
-        return answer;
       }
     default:
       return null;
