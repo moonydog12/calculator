@@ -66,6 +66,7 @@ function clickDigits() {
 /* 按下運算符 */
 function clickOperators() {
   clickedOperator = this.innerHTML;
+  storedNumber = displayScreen.innerHTML;
   if (storedNumber === null || storedNumber === '') {
     storedNumber = displayScreen.innerHTML;
   }
