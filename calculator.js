@@ -1,68 +1,79 @@
 /* selector */
 const displayScreen = document.querySelector('#display');
-const digits = document.querySelectorAll('.buttons .digit-btn');
-const operators = document.querySelectorAll('.buttons .operator-btn');
+const digits = document.querySelectorAll('.digit-btn');
+const operators = document.querySelectorAll('.operator-btn');
 const equalBtn = document.querySelector('#equalBtn');
 const clearBtn = document.querySelector('#clearBtn');
 const deleteBtn = document.querySelector('#deleteBtn');
 
-/* global variables */
-let clickedOperator;
-let storedNumber;
+/* global variable */
+let clickedOperator, storedNumber, currentNumber;
 
 /* event listener */
 digits.forEach((digit) => {
-  digit.addEventListener('click', clickDigits);
+  digit.addEventListener('click', clickDigit);
 });
-
 operators.forEach((operator) => {
-  operator.addEventListener('click', clickOperators);
+  operator.addEventListener('click', clickOperator);
 });
-
 clearBtn.addEventListener('click', allClean);
 deleteBtn.addEventListener('click', deleteNumber);
 equalBtn.addEventListener('click', clickEqualBtn);
 
-/* Funcs */
-function appendNumber(number) {
-  displayScreen.innerHTML += number;
-}
-
+/* function */
 function allClean() {
   clickedOperator = null;
   storedNumber = null;
-  displayScreen.innerHTML = '0';
+  displayScreen.innerHTML = '';
 }
 
 function deleteNumber() {
   displayScreen.innerHTML = displayScreen.innerHTML.toString().slice(0, -1);
 }
 
-function clickDigits() {
-  appendNumber(this.innerHTML);
+function clickDigit() {
+  displayScreen.innerHTML += this.innerHTML;
 }
 
-function clickOperators() {
+function clickOperator() {
   clickedOperator = this.innerHTML;
   storedNumber = displayScreen.innerHTML;
+  // 清空screen騰出下一個運算數字的空間
+  displayScreen.innerHTML = '';
 }
 
 function clickEqualBtn() {
-  let currentNumber = displayScreen.innerHTML;
-  let answer = operate(storedNumber, clickedOperator, currentNumber);
+  if (
+    storedNumber === null ||
+    storedNumber === undefined ||
+    clickedOperator === null ||
+    clickedOperator === undefined
+  ) {
+    console.log('not enough args');
+    return;
+  }
+  let answer = operate(storedNumber, clickedOperator, displayScreen.innerHTML);
   displayScreen.innerHTML = answer;
+  storedNumber = null;
+  clickedOperator = null;
 }
 
-/* operations */
+/* operation function */
 const add = (a, b) => a + b;
 const subtract = (a, b) => a - b;
 const multiply = (a, b) => a * b;
-const divide = (a, b) => a / b;
+const divide = (a, b) => {
+  if (a === 0 || b === 0) {
+    console.log("Please don't crash me !");
+    return '';
+  }
+  return a / b;
+};
 
 function operate(a, operator, b) {
-  a = parseInt(a);
-  b = parseInt(b);
-
+  // convert possible string to number(Unary Operator)
+  a = +a;
+  b = +b;
   switch (operator) {
     case '+':
       return add(a, b);
@@ -72,7 +83,5 @@ function operate(a, operator, b) {
       return multiply(a, b);
     case '÷':
       return divide(a, b);
-    default:
-      return null;
   }
 }

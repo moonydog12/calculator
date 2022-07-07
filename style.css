@@ -104,16 +104,19 @@ button {
 .function-btn {
   background-color: var(--function);
   padding: 0px 10px;
+  font-family: 'Jetbrains mono';
 }
 
 .function-btn:hover {
   background-color: rgba(186, 129, 83, 0.7);
 }
 
-.digit-btn {
+.digit-btn,
+.dot-btn {
   background-color: var(--digit);
 }
 
+.dot-btn:hover,
 .digit-btn:hover,
 .dark-btn:hover {
   background-color: #a9b576;
