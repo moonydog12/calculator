@@ -6,9 +6,6 @@ const equalBtn = document.querySelector('#equalBtn');
 const clearBtn = document.querySelector('#clearBtn');
 const deleteBtn = document.querySelector('#deleteBtn');
 
-/* global variable */
-let clickedOperator, storedNumber, currentNumber;
-
 /* event listener */
 digits.forEach((digit) => {
   digit.addEventListener('click', clickDigit);
@@ -16,12 +13,17 @@ digits.forEach((digit) => {
 operators.forEach((operator) => {
   operator.addEventListener('click', clickOperator);
 });
-clearBtn.addEventListener('click', allClean);
+clearBtn.addEventListener('click', cleanAll);
 deleteBtn.addEventListener('click', deleteNumber);
 equalBtn.addEventListener('click', clickEqualBtn);
 
+/* variables */
+let clickedOperator = null;
+let storedNumber = null;
+let currentNumber = null;
+
 /* function */
-function allClean() {
+function cleanAll() {
   clickedOperator = null;
   storedNumber = null;
   displayScreen.innerHTML = '';
@@ -38,40 +40,34 @@ function clickDigit() {
 function clickOperator() {
   clickedOperator = this.innerHTML;
   storedNumber = displayScreen.innerHTML;
-  // 清空screen騰出下一個運算數字的空間
+  currentNumber = null;
+  // clean current screen for new operand
   displayScreen.innerHTML = '';
 }
 
 function clickEqualBtn() {
-  if (
-    storedNumber === null ||
-    storedNumber === undefined ||
-    clickedOperator === null ||
-    clickedOperator === undefined
-  ) {
-    console.log('not enough args');
-    return;
+  // check if the number & operator exist
+  if (storedNumber === null || clickedOperator === null) {
+    return '';
   }
-  let answer = operate(storedNumber, clickedOperator, displayScreen.innerHTML);
-  displayScreen.innerHTML = answer;
+  let result = operate(storedNumber, clickedOperator, displayScreen.innerHTML);
+  displayScreen.innerHTML = result;
   storedNumber = null;
   clickedOperator = null;
+}
+
+function roundNumber(num) {
+  let result = num.toString().length >= 5 ? parseFloat(num).toFixed(2) : num;
+  return result;
 }
 
 /* operation function */
 const add = (a, b) => a + b;
 const subtract = (a, b) => a - b;
 const multiply = (a, b) => a * b;
-const divide = (a, b) => {
-  if (a === 0 || b === 0) {
-    console.log("Please don't crash me !");
-    return '';
-  }
-  return a / b;
-};
+const divide = (a, b) => roundNumber(a / b);
 
 function operate(a, operator, b) {
-  // convert possible string to number(Unary Operator)
   a = +a;
   b = +b;
   switch (operator) {
