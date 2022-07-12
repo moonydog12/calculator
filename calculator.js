@@ -18,14 +18,15 @@ deleteBtn.addEventListener('click', deleteNumber);
 equalBtn.addEventListener('click', clickEqualBtn);
 
 /* variables */
-let clickedOperator = null;
+let operator = null;
 let storedNumber = null;
 let currentNumber = null;
 
 /* function */
 function cleanAll() {
-  clickedOperator = null;
+  operator = null;
   storedNumber = null;
+  currentNumber = null;
   displayScreen.innerHTML = '';
 }
 
@@ -38,29 +39,36 @@ function clickDigit() {
 }
 
 function clickOperator() {
-  clickedOperator = this.innerHTML;
+  // FIXME:連續計算功能
+  // if (operator !== null && storedNumber !== null) {
+  //   currentNumber = displayScreen.innerHTML;
+  //   console.log(operate(storedNumber, operator, currentNumber));
+  //   displayScreen.innerHTML = operate(storedNumber, operator, currentNumber);
+  //   return;
+  // }
+  //把運算子&螢幕數字存入變數
+  operator = this.innerHTML;
   storedNumber = displayScreen.innerHTML;
-  currentNumber = null;
-  // clean current screen for new operand
+  //Reset screen for new number
   displayScreen.innerHTML = '';
 }
 
 function clickEqualBtn() {
-  // check if the number & operator exist
-  if (storedNumber === null || clickedOperator === null) {
-    return '';
-  }
-  let result = operate(storedNumber, clickedOperator, displayScreen.innerHTML);
-  displayScreen.innerHTML = result;
-  storedNumber = null;
-  clickedOperator = null;
+  // 檢查變數內是否有值
+  if (storedNumber === null || operator === null) return;
+  compute();
 }
 
 function roundNumber(num) {
-  let result = num.toString().length >= 5 ? parseFloat(num).toFixed(2) : num;
-  return result;
+  return num.toString().length >= 5 ? parseFloat(num).toFixed(2) : num;
 }
-
+//FIXME:這個function的目的是?
+function compute() {
+  currentNumber = displayScreen.innerHTML;
+  console.log(storedNumber, operator, currentNumber);
+  displayScreen.innerHTML = operate(storedNumber, operator, currentNumber);
+  storedNumber = null;
+}
 /* operation function */
 const add = (a, b) => a + b;
 const subtract = (a, b) => a - b;
